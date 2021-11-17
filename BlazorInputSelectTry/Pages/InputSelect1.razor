@@ -1,0 +1,51 @@
+﻿@page "/InputSelect1"
+
+<h3>InputSelect1:単純に文字列のリストから一つを選ぶ</h3>
+
+<EditForm Model="@dummyModel">
+    <p>
+        InputSelect Name:
+        <InputSelect @bind-Value="Name">
+            @foreach (var name in _nameSelectList) {
+                <option>@name</option>
+            }
+        </InputSelect>
+    </p>
+</EditForm>
+
+<div class="card w-250" style="margin-bottom:15px">
+    <div class="card-header font-weight-bold">Selected Name</div>
+    <div class="card-body">
+        Name:@Name
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var name in _nameSelectList)
+        {
+            <tr>
+                <td>@name</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+
+    private DummyModel dummyModel = new();
+    public class DummyModel{}
+
+    public string Name { get; set; } = "";
+    private List<string> _nameSelectList = new() { "放浪軍師", "夏狂乱", "漆原 鎌足", "鮫月かこい","遥ノ音ハル" };
+
+    protected override void OnInitialized()
+    {
+        Name = _nameSelectList.Last();
+    }
+}

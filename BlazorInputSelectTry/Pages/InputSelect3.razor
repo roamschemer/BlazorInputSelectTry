@@ -1,0 +1,109 @@
+﻿@page "/InputSelect3"
+@inject HttpClient Http
+
+<h3>InputSelect3:人物クラスから人物クラスにハードコピー</h3>
+
+@if (_personSelectList == null || SelectPerson == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <EditForm Model="@dummyModel">
+        <p>
+            InputSelect Name:
+@*          
+            このやり方はエラーになります。できそうなんだけどね。
+            <InputSelect @bind-Value="SelectPerson">
+                @foreach (var person in _personSelectList) {
+                    <option value="@person">@person.Name</option>
+                }
+            </InputSelect>*@
+            <InputSelect @bind-Value="_selectPersonId" @oninput="OnPersonInput">
+                @foreach (var person in _personSelectList) {
+                    <option value="@person.Id">@person.Name</option>
+                }
+            </InputSelect>
+        </p>
+    </EditForm>
+
+    <div class="card w-250" style="margin-bottom:15px">
+        <div class="card-header font-weight-bold">Selected Person</div>
+        <div class="card-body">
+            Id:@SelectPerson.Id <br>
+            Name:@SelectPerson.Name <br>
+            Profession:@SelectPerson.Profession <br>
+            Remarks:@SelectPerson.Remarks <br>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Profession</th>
+                <th>Remaarks</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var person in _personSelectList)
+            {
+                <tr>
+                    <td>@person.Id</td>
+                    <td>@person.Name</td>
+                    <td>@person.Profession</td>
+                    <td>@person.Remarks</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    private DummyModel dummyModel = new();
+    public class DummyModel{}
+
+    public Person SelectPerson { get; set; } = new();
+    private int _selectPersonId;
+
+    private List<Person> _personSelectList = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _personSelectList = await Http.GetFromJsonAsync<List<Person>>("sample-data/person.json");
+        SelectPerson = new();
+        SelectPerson.Update(_personSelectList.Last());
+        _selectPersonId = SelectPerson.Id;
+    }
+    private void OnPersonInput(ChangeEventArgs e)
+    {
+        if (e.Value == null) return;
+        var selected_id = Int32.Parse(e.Value.ToString());
+        var person = _personSelectList.FirstOrDefault(x => x.Id == selected_id);
+        if (person == null) return;
+        SelectPerson.Update(person);
+    }
+    public class Person {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Profession { get; set; }
+        public string Remarks { get; set; }
+        public Person()
+        {
+            Id = 0;
+            Name = "";
+            Profession = "";
+            Remarks = "";
+        }
+        public void Update(Person person)
+        {
+            Id = person.Id;
+            Name = person.Name;
+            Profession = person.Profession;
+            Remarks = person.Remarks;
+        }
+    }
+
+}

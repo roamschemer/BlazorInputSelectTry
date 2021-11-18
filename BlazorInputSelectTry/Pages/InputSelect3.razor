@@ -10,21 +10,19 @@
 else
 {
     <EditForm Model="@dummyModel">
-        <p>
-            InputSelect Name:
+        InputSelect Name:
 @*          
-            このやり方はエラーになります。できそうなんだけどね。
-            <InputSelect @bind-Value="SelectPerson">
-                @foreach (var person in _personSelectList) {
-                    <option value="@person">@person.Name</option>
-                }
-            </InputSelect>*@
-            <InputSelect @bind-Value="_selectPersonId" @oninput="OnPersonInput">
-                @foreach (var person in _personSelectList) {
-                    <option value="@person.Id">@person.Name</option>
-                }
-            </InputSelect>
-        </p>
+        このやり方はエラーになります。できそうなんだけどね。
+        <InputSelect @bind-Value="SelectPerson">
+            @foreach (var person in _personSelectList) {
+                <option value="@person">@person.Name</option>
+            }
+        </InputSelect>*@
+        <InputSelect @bind-Value="_selectPersonId" @oninput="OnPersonInput">
+            @foreach (var person in _personSelectList) {
+                <option value="@person.Id">@person.Name</option>
+            }
+        </InputSelect>
     </EditForm>
 
     <div class="card w-250" style="margin-bottom:15px">

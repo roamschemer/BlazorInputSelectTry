@@ -3,14 +3,12 @@
 <h3>InputSelect1:単純に文字列のリストから一つを選ぶ</h3>
 
 <EditForm Model="@dummyModel">
-    <p>
-        InputSelect Name:
-        <InputSelect @bind-Value="Name">
-            @foreach (var name in _nameSelectList) {
-                <option>@name</option>
-            }
-        </InputSelect>
-    </p>
+    InputSelect Name:
+    <InputSelect @bind-Value="Name">
+        @foreach (var name in _nameSelectList) {
+            <option>@name</option>
+        }
+    </InputSelect>
 </EditForm>
 
 <div class="card w-250" style="margin-bottom:15px">

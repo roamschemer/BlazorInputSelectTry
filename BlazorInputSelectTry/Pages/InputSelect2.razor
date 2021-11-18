@@ -10,14 +10,12 @@
 else
 {
     <EditForm Model="@dummyModel">
-        <p>
-            InputSelect Name:
-            <InputSelect @bind-Value="PersonId">
-                @foreach (var person in _personSelectList) {
-                    <option value="@person.Id">@person.Name</option>
-                }
-            </InputSelect>
-        </p>
+        InputSelect Name:
+        <InputSelect @bind-Value="PersonId">
+            @foreach (var person in _personSelectList) {
+                <option value="@person.Id">@person.Name</option>
+            }
+        </InputSelect>
     </EditForm>
 
     <div class="card w-250" style="margin-bottom:15px">

@@ -68,15 +68,22 @@ else
     public Person SelectPerson { get; set; } = new();
     private int _selectPersonId;
 
-    private List<Person> _personSelectList = new();
 
-    protected override async Task OnInitializedAsync()
+    private List<Person> _personSelectList = new()
     {
-        _personSelectList = await Http.GetFromJsonAsync<List<Person>>("sample-data/person.json");
-        SelectPerson = new();
+        new(){Id=0,Name="放浪 軍師", Profession="エンジニア", Remarks="最近ブログ更新さぼっててごめんなさい"},
+        new(){Id=1,Name="夏狂 乱", Profession="抽選アプリケーション", Remarks="AIではない方法で人格を持たせる事を目指すアプリ"},
+        new(){Id=2,Name="漆原 鎌足", Profession="退魔師", Remarks="清楚カメラめちゃ便利なのでもうちょっと有名になっていい！"},
+        new(){Id=3,Name="鮫月かこい", Profession="妖精", Remarks="生きているだけで偉いと褒めてもらおう！"},
+        new(){Id=4,Name="遥ノ音ハル", Profession="弾き語り", Remarks="エモい弾き語り配信は必見！"},
+    };
+
+    protected override void OnInitialized()
+    {
         SelectPerson.Update(_personSelectList.Last());
         _selectPersonId = SelectPerson.Id;
     }
+
     private void OnPersonInput(ChangeEventArgs e)
     {
         if (e.Value == null) return;
@@ -85,18 +92,12 @@ else
         if (person == null) return;
         SelectPerson.Update(person);
     }
+
     public class Person {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Profession { get; set; }
-        public string Remarks { get; set; }
-        public Person()
-        {
-            Id = 0;
-            Name = "";
-            Profession = "";
-            Remarks = "";
-        }
+        public string Name { get; set; } = "";
+        public string Profession { get; set; } = "";
+        public string Remarks { get; set; } = "";
         public void Update(Person person)
         {
             Id = person.Id;
